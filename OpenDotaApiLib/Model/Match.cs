@@ -10,7 +10,7 @@ namespace OpenDotaApiLib.Model
 
     public class Match
     {
-        public int MatchId { get; private set; }//
+        public long MatchId { get; private set; }//
         public int BarracksStatusDire { get; private set; }//
         public int BarracksStatusRadiant { get; private set; }//
         public int DireScore { get; private set; }//
@@ -26,8 +26,8 @@ namespace OpenDotaApiLib.Model
         public Team Dire { get; private set; }
         public Team Radiant { get; private set; }
         public Hero Hero { get; private set; }
-
-        public Match(int matchId)
+        
+        public Match(long matchId)
         {
             MatchId = matchId;
         }
@@ -48,22 +48,36 @@ namespace OpenDotaApiLib.Model
             RadiantScore = (int)data["radiant_score"];
 
             var teamJObject = data["radiant_team"];
-            
-            int teamId = (int)teamJObject["team_id"];
-            string name = (string)teamJObject["name"];
-            string tag = (string)teamJObject["tag"];
-            string logoUrl = (string)teamJObject["logo_url"];
 
-            Radiant = new Team(teamId, name, tag, logoUrl);
+            if (teamJObject != null)
+            {
+                int teamId = (int)teamJObject["team_id"];
+                string name = (string)teamJObject["name"];
+                string tag = (string)teamJObject["tag"];
+                string logoUrl = (string)teamJObject["logo_url"];
+
+                Radiant = new Team(teamId, name, tag, logoUrl);
+            }
+            else
+            {
+                Radiant = null;
+            }
 
             teamJObject = data["dire_team"];
 
-            teamId = (int)teamJObject["team_id"];
-            name = (string)teamJObject["name"];
-            tag = (string)teamJObject["tag"];
-            logoUrl = (string)teamJObject["logo_url"];
+            if (teamJObject != null)
+            {
+                int teamId = (int)teamJObject["team_id"];
+                string name = (string)teamJObject["name"];
+                string tag = (string)teamJObject["tag"];
+                string logoUrl = (string)teamJObject["logo_url"];
 
-            Dire = new Team(teamId, name, tag, logoUrl);
+                Dire = new Team(teamId, name, tag, logoUrl);
+            }
+            else
+            {
+                Dire = null;
+            }
 
             Duration = (int)data["duration"];
             FirstBloodTime = (int)data["first_blood_time"];
@@ -77,43 +91,103 @@ namespace OpenDotaApiLib.Model
             {
                 var player = data["players"][i];
                 var slot = (int)player["player_slot"];
-                var id = (int)player["account_id"];
+
+                int? id = null;
+
+                bool isHidenAccount;
+
+                if ((int?)player["account_id"] != null)
+                {
+                    isHidenAccount = false;
+                    id = (int?)player["account_id"];
+                }
+                else
+                {
+                    isHidenAccount = true;
+                }
+
                 var kill = (int)player["kills"];
                 var assist = (int)player["assists"];
                 var death = (int)player["deaths"];
                 var netWorth = (int)player["net_worth"];
-                var campStacked = (int)player["camps_stacked"];
-                var obs = (int)player["obs_placed"];
-                var sentry = (int)player["sen_placed"];
-                var randomed = (bool)player["randomed"];
-                var runes = (int)player["rune_pickups"];
+
+                int campStacked;
+
+                if ((int?)player["camps_stacked"] == null)
+                {
+                    campStacked = 0;
+                }
+                else
+                {
+                    campStacked = (int)player["camps_stacked"];
+                }
+
+                int obs;
+                int sentry;
+
+                if ((int?)player["obs_placed"] == null)
+                {
+                    obs = 0;
+                }
+                else
+                {
+                    obs = (int)player["obs_placed"];
+                }
+
+                if ((int?)player["sen_placed"] == null)
+                {
+                    sentry = 0;
+                }
+                else
+                {
+                    sentry = (int)player["sen_placed"];
+                }
+
+                int runes;
+
+                if ((int?)player["rune_pickups"] == null)
+                {
+                    runes = 0;
+                }
+                else
+                {
+                    runes = (int)player["rune_pickups"];
+                }
+                
                 var towerDamage = (int)player["tower_damage"];
-                var towerKilled = (int)player["towers_killed"];
-                if (towerKilled == null)
+
+                int towerKilled;
+
+                if ((int?)player["towers_killed"] == null)
                 {
                     towerKilled = 0;
                 }
+                else
+                {
+                    towerKilled = (int)player["towers_killed"];
+                }
+
                 var xpPerMinute = (int)player["xp_per_min"];
                 var goldPerMinute = (int)player["gold_per_min"];
                 var playerName = (string)player["name"];
                 var personaName = (string)player["personaname"];
                 var isRadiant = (bool)player["isRadiant"];
 
-                int item0 = (int)player["item_0"];
-                int item1 = (int)player["item_1"];
-                int item2 = (int)player["item_2"];
-                int item3 = (int)player["item_3"];
-                int item4 = (int)player["item_4"];
-                int item5 = (int)player["item_5"];
-                int itemNeutral = (int)player["item_neutral"];
-                int backpack0 = (int)player["backpack_0"];
-                int backpack1 = (int)player["backpack_1"];
-                int backpack2 = (int)player["backpack_2"];
-                int backpack3 = (int)player["backpack_3"];
+                int? item0 = (int?)player["item_0"];
+                int? item1 = (int?)player["item_1"];
+                int? item2 = (int?)player["item_2"];
+                int? item3 = (int?)player["item_3"];
+                int? item4 = (int?)player["item_4"];
+                int? item5 = (int?)player["item_5"];
+                int? itemNeutral = (int?)player["item_neutral"];
+                int? backpack0 = (int?)player["backpack_0"];
+                int? backpack1 = (int?)player["backpack_1"];
+                int? backpack2 = (int?)player["backpack_2"];
+                int? backpack3 = (int?)player["backpack_3"];
 
                 var playerInventory = new PlayerInventory(item0, item1, item2, item3, item4, item5, backpack0, backpack1, backpack2, backpack3, itemNeutral);
 
-                Players.Add(new Player(slot, id, kill, death, assist, netWorth, campStacked, obs, sentry, randomed, runes, towerDamage, towerKilled, xpPerMinute, goldPerMinute, name, personaName, isRadiant, playerInventory));
+                Players.Add(new Player(slot, id, kill, death, assist, netWorth, campStacked, obs, sentry, runes, towerDamage, towerKilled, xpPerMinute, goldPerMinute, playerName, personaName, isRadiant, playerInventory, isHidenAccount));
             }
 
         }
