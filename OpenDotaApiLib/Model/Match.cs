@@ -25,8 +25,11 @@ namespace OpenDotaApiLib.Model
         public List<Player> Players { get; private set; }
         public Team Dire { get; private set; }
         public Team Radiant { get; private set; }
-        public Hero Hero { get; private set; }
         
+        /// <summary>
+        /// Need to load data. (LoadData)
+        /// </summary>
+        /// <param name="matchId"></param>
         public Match(long matchId)
         {
             MatchId = matchId;
@@ -172,6 +175,7 @@ namespace OpenDotaApiLib.Model
                 var playerName = (string)player["name"];
                 var personaName = (string)player["personaname"];
                 var isRadiant = (bool)player["isRadiant"];
+                var heroId = (int)player["hero_id"];
 
                 int? item0 = (int?)player["item_0"];
                 int? item1 = (int?)player["item_1"];
@@ -187,7 +191,9 @@ namespace OpenDotaApiLib.Model
 
                 var playerInventory = new PlayerInventory(item0, item1, item2, item3, item4, item5, backpack0, backpack1, backpack2, backpack3, itemNeutral);
 
-                Players.Add(new Player(slot, id, kill, death, assist, netWorth, campStacked, obs, sentry, runes, towerDamage, towerKilled, xpPerMinute, goldPerMinute, playerName, personaName, isRadiant, playerInventory, isHidenAccount));
+                playerInventory.FindItems();
+
+                Players.Add(new Player(slot, id, kill, death, assist, netWorth, campStacked, obs, sentry, runes, towerDamage, towerKilled, xpPerMinute, goldPerMinute, playerName, personaName, isRadiant, playerInventory, isHidenAccount, new Hero(heroId)));
             }
 
         }

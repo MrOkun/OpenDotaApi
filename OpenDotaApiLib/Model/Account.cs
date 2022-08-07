@@ -20,7 +20,10 @@ namespace OpenDotaApiLib.Model
         public string ProfileUrl { get; private set; }
 
         public List<HeroStatistic> Heroes;
-
+        /// <summary>
+        /// Need to load data. (LoadData)
+        /// </summary>
+        /// <param name="playerId"></param>
         public Account(int playerId)
         {
             Id = playerId;

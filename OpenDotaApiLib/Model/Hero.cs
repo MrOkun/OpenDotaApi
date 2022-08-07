@@ -13,7 +13,10 @@ namespace OpenDotaApiLib.Model
         public string LocalizedName { get; private set; }
         public string Name { get; private set; }
         public string IconURL { get; private set; }
-
+        /// <summary>
+        /// Need to load data. (LoadData)
+        /// </summary>
+        /// <param name="HeroId"></param>
         public Hero(int HeroId)
         {
             Id = HeroId;

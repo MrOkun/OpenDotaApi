@@ -6,25 +6,40 @@ namespace OpenDotaApiTest
     {
         static void Main(string[] args)
         {
-            var hero = new Hero(12);
-            hero.LoadData();
+            long matchId = 6696439526;
 
-            var match = new Match(6693858360);
+            var match = new Match(matchId);
             match.LoadData();
 
             for (int i = 0; i < match.Players.Count; i++)
             {
-                var player = match.Players[i];
+                Console.WriteLine();
 
-                if (player.IsHidenAccount)
+                var players = match.Players;
+                var player = players[i];
+                var hero = player.Hero;
+
+                if (!player.IsHidenAccount)
                 {
-                    Console.WriteLine($"Player {i} account is hidden!");
+                    Console.WriteLine($"{player.PersonaName} with KDA {player.Kill}/{player.Death}/{player.Assist} GpM - {player.GoldPerMinute}, XPpM - {player.XpPerMinute}");
                 }
                 else
                 {
-                    Console.WriteLine($"Player {match.Players[i].PersonaName}, KDA {match.Players[i].Kill}/{match.Players[i].Death}/{match.Players[i].Assist}");
+                    Console.WriteLine($"Player {i} with KDA {player.Kill}/{player.Death}/{player.Assist} GpM - {player.GoldPerMinute}, XPpM - {player.XpPerMinute} (Hidden account)");
                 }
+
+                Console.Write($"Hero is {hero.LocalizedName} with \n");
+
+                for (int j = 0; j < player.Inventory.Items.Count; j++)
+                {
+                    var item = player.Inventory.Items[j];
+                    item.Load();
+                    Console.Write($"{item.LocalizedName}|");
+                }
+
+                Console.Write("\n \n \n");
             }
+
         }
     }
 }

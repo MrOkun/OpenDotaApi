@@ -13,6 +13,10 @@ namespace OpenDotaApiLib.Model
         public string Name { get; private set; }
         public bool Balanced { get; private set; }
 
+        /// <summary>
+        /// Need to load data. (LoadData)
+        /// </summary>
+        /// <param name="id"></param>
         public GameMode(int id)
         {
             Id = id;

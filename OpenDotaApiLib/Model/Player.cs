@@ -28,8 +28,9 @@ namespace OpenDotaApiLib.Model
         public bool IsRadiant { get; private set; }
         public PlayerInventory Inventory { get; private set; }
         public bool IsHidenAccount { get; private set; }
+        public Hero Hero { get; private set; }
 
-        public Player(int slot, int? id, int kill, int death, int assist, int netWorth, int campStacked, int observerPlaced, int sentryPlaced, int runePickups, int towerDamage, int towerKilled, int xpPerMinute, int goldPerMinute, string name, string personaName, bool isRadiant, PlayerInventory inventory, bool isHidenAccount)
+        public Player(int slot, int? id, int kill, int death, int assist, int netWorth, int campStacked, int observerPlaced, int sentryPlaced, int runePickups, int towerDamage, int towerKilled, int xpPerMinute, int goldPerMinute, string name, string personaName, bool isRadiant, PlayerInventory inventory, bool isHidenAccount, Hero hero)
         {
             Slot = slot;
             Id = id;
@@ -50,6 +51,8 @@ namespace OpenDotaApiLib.Model
             IsRadiant = isRadiant;
             Inventory = inventory;
             IsHidenAccount = isHidenAccount;
+            hero.LoadData();
+            Hero = hero;
         }
     }
 }
