@@ -34,12 +34,32 @@ namespace OpenDotaApiTest
                 {
                     var item = player.Inventory.Items[j];
                     item.Load();
-                    Console.Write($"{item.LocalizedName}|");
+
+                    if (!item.IsNeutral)
+                    {
+                        Console.Write($"{item.LocalizedName}|");
+                    }
+                    else
+                    {
+                        Console.Write($"{item.LocalizedName}(n)|");
+                    }
                 }
 
                 Console.Write("\n \n \n");
+
             }
 
+            var heroStat = new HeroStatistic(new Hero(12), 10, 10);
+
+            heroStat.LoadData();
+            heroStat.Hero.LoadData();
+
+            Console.WriteLine(heroStat.Hero.LocalizedName);
+
+            for (int i = 0; i < heroStat.Items.Count; i++)
+            {
+                Console.WriteLine(heroStat.Items[i].Item.Id + "|" + heroStat.Items[i].Item.LocalizedName + "(" + heroStat.Items[i].Count + ")");
+            }
         }
     }
 }

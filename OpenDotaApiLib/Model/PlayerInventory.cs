@@ -56,17 +56,17 @@
 
         public void FindItems()
         {
-            Item0 = new Item(ItemId0);
-            Item1 = new Item(ItemId1);
-            Item2 = new Item(ItemId2);
-            Item3 = new Item(ItemId3);
-            Item4 = new Item(ItemId4);
-            Item5 = new Item(ItemId5);
-            Backpack0 = new Item(BackpackId0);
-            Backpack1 = new Item(BackpackId1);
-            Backpack2 = new Item(BackpackId2);
-            Backpack3 = new Item(BackpackId3);
-            ItemNeutral = new Item(ItemNeutralId);
+            Item0 = new Item(ItemId0, false);
+            Item1 = new Item(ItemId1, false);
+            Item2 = new Item(ItemId2, false);
+            Item3 = new Item(ItemId3, false);
+            Item4 = new Item(ItemId4, false);
+            Item5 = new Item(ItemId5, false);
+            Backpack0 = new Item(BackpackId0, false);
+            Backpack1 = new Item(BackpackId1, false);
+            Backpack2 = new Item(BackpackId2, false);
+            Backpack3 = new Item(BackpackId3, false);
+            ItemNeutral = new Item(ItemNeutralId, true);
 
             Items = new List<Item>() { Item0, Item1, Item2, Item3, Item4, Item5, Backpack0, Backpack1, Backpack2, Backpack3, ItemNeutral };
         }

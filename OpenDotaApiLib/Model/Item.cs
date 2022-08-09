@@ -12,12 +12,14 @@ namespace OpenDotaApiLib.Model
         public int Id { get; set; }
         public string LocalizedName { get; set; }
         public string Name { get; set; }
+        public string IconUrl { get; set; }
+        public bool IsNeutral;
 
         /// <summary>
         /// Need to load data. (Load)
         /// </summary>
         /// <param name="id"></param>
-        public Item(int? id)
+        public Item(int? id, bool isNeutral)
         {
             if (id != null)
             {
@@ -27,6 +29,8 @@ namespace OpenDotaApiLib.Model
             {
                 Id = 0;
             }
+
+            IsNeutral = isNeutral;
         }
 
         public void Load()
@@ -74,6 +78,16 @@ namespace OpenDotaApiLib.Model
                 }
 
                 LocalizedName = localizedName;
+
+                if (!IsNeutral)
+                {
+                    IconUrl = $"https://raw.githubusercontent.com/odota/mobile/master/app/assets/items/{Name}_lg.png";
+                }
+                else
+                {
+                    IconUrl = $"neutral item has't icon";
+                }
+
             }
         }
     }
